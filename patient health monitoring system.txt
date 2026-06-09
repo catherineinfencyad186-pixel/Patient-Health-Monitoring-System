@@ -1,0 +1,39 @@
+#include <DHT.h>
+
+#define DHTPIN 4
+#define DHTTYPE DHT22
+
+#define GREEN_LED 2
+#define RED_LED 15
+#define BUZZER 18
+
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(115200);
+
+  pinMode(GREEN_LED, OUTPUT);
+  pinMode(RED_LED, OUTPUT);
+  pinMode(BUZZER, OUTPUT);
+
+  dht.begin();
+}
+
+void loop() {
+  float temp = dht.readTemperature();
+
+  Serial.print("Temperature: ");
+  Serial.println(temp);
+
+  if (temp >=98) {
+    digitalWrite(RED_LED, HIGH);
+    digitalWrite(BUZZER, HIGH);
+    digitalWrite(GREEN_LED, LOW);
+  } else {
+    digitalWrite(RED_LED, LOW);
+    digitalWrite(BUZZER, LOW);
+    digitalWrite(GREEN_LED, HIGH);
+  }
+
+  delay(10);
+}
